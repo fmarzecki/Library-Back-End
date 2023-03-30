@@ -21,7 +21,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     // allows us to create user, save it to the database and generate token out of it  
-    public RegisterResponse register(RegisterRequest request) {
+    public BasicResponse register(RegisterRequest request) {
         //create user out of RegisterRequest object
         var user = User.builder()
             .email(request.getEmail())
@@ -35,7 +35,7 @@ public class AuthenticationService {
 
         repository.save(user);
 
-        return RegisterResponse.builder().response("Succes!").build();
+        return BasicResponse.builder().response("Succes!").build();
     }
 
     // We'll use AuthenticationManager @bean that we created in AppConfig

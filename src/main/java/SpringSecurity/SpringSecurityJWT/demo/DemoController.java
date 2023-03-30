@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import SpringSecurity.SpringSecurityJWT.auth.BasicResponse;
+
 @RestController
 @RequestMapping("/test")
 @CrossOrigin("*")
@@ -18,7 +20,8 @@ public class DemoController {
     }
 
     @GetMapping("/admin")
-    public ResponseEntity<String> sayHello2() {
-        return ResponseEntity.ok("it is for admin");
+    public BasicResponse sayHello2() {
+        BasicResponse response = new BasicResponse("It it only for admin!");
+        return response;
     }
 }
