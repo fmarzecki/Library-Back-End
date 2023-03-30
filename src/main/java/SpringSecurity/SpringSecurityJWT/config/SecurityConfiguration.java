@@ -1,5 +1,7 @@
 package SpringSecurity.SpringSecurityJWT.config;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -29,10 +31,12 @@ public class SecurityConfiguration {
         // for example when loggin or regestering
         // create whitelist
         http
+            .cors()
+            .disable()
             .csrf()
             .disable()
             .authorizeHttpRequests()
-            .requestMatchers("/test/admin").hasRole("USER")
+            // .requestMatchers("/test/admin").hasRole("USER")
             // permit all ednpoints in string list
             .requestMatchers("/api/v1/auth/**")
             .permitAll()
@@ -53,4 +57,17 @@ public class SecurityConfiguration {
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
+    // @Bean
+    // public CorsConfigurationSource corsConfigurationSource() {
+    //     CorsConfiguration configuration = new CorsConfiguration();
+    //     configuration.setAllowedOrigins(Arrays.asList("*"));
+    //     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+    //     configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+    //     configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    //     source.registerCorsConfiguration("/**", configuration);
+    //     return source;
+    // }
+    
 }
