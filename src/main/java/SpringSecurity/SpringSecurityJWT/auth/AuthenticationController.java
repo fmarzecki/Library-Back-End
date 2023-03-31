@@ -18,7 +18,7 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> register
+    public ResponseEntity<BasicResponse> register
         (@RequestBody RegisterRequest request)
     {
         return ResponseEntity.ok(service.register(request));
@@ -31,8 +31,4 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
-    @GetMapping("/yo")
-    public String sayHello2() {
-        return "it is for admin";
-    }
 }
