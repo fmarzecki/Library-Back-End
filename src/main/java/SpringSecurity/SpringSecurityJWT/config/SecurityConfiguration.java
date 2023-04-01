@@ -35,7 +35,7 @@ public class SecurityConfiguration {
         // create whitelist
         http
             .cors()
-            .disable()
+            .and()
             .csrf()
             .disable()
             .authorizeHttpRequests()
@@ -43,14 +43,8 @@ public class SecurityConfiguration {
             // permit all ednpoints in string list
             .requestMatchers("/api/v1/auth/**")
             .permitAll()
-            // all the other request require authentication
             .anyRequest()
             .authenticated()
-            // configure session management
-            // the session should be stateless because we wanted 
-            // every request to be authenticated
-            // so the session state should not be stored (it should be stateless)
-            // ".and()" - adds a new config
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
