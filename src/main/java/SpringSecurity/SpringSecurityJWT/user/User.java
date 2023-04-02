@@ -38,7 +38,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "_user")
 public class User implements UserDetails {
     
-
     @Id
     @GeneratedValue
     private Integer id;
@@ -53,7 +52,6 @@ public class User implements UserDetails {
 
     // when spring security start setup application it will use object called UserDetails
     // thats and interface that contains a bunch of methods
-
 
     // User can have only one role
     @Enumerated(EnumType.STRING)

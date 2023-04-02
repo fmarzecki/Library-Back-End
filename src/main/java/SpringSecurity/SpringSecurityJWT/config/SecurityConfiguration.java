@@ -39,7 +39,7 @@ public class SecurityConfiguration {
             .csrf()
             .disable()
             .authorizeHttpRequests()
-            // .requestMatchers("/test/admin").hasRole("USER")
+            // .requestMatchers("/test/admin").hasRole("ADMIN")
             // permit all ednpoints in string list
             .requestMatchers("/api/v1/auth/**")
             .permitAll()
