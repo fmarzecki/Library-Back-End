@@ -20,37 +20,34 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    //at the startup SpringSecurity will try to look for a Bean of type security
-    // filter chain that is responsible for configuring all the HTTP security of 
-    // our application 
 
+    /*
+     * At startup, SpringSecurity will look for Bean of type SecurityFilterChain
+     * it is responsible for configuring all the HTTP security, every request
+     * have to go through this chain
+     */
     final private JwtAuthenticationFilter jwtAuthFilter;
     final private AuthenticationProvider AuthenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception{
 
-        // in here we can choose what are the URLs that we want to secure
-        // for example when loggin or regestering
-        // create whitelist
         http
             .cors()
             .and()
             .csrf()
             .disable()
             .authorizeHttpRequests()
-            // .requestMatchers("/test/admin").hasRole("ADMIN")
-            // permit all ednpoints in string list
-            .requestMatchers("/api/v1/auth/**")
+            // .requestMatchers("/test/admin").hasAnyRole("ADMIN")
+            .requestMatchers("/api/v1/auth/**") // Permit endpoints without token
             .permitAll()
             .anyRequest()
             .authenticated()
             .and()
-            .sessionManagement()
+            .sessionManagement() // No session, JWT for authentication and authorization
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            // i need to tell spring which authentication provider I want to use
-            .authenticationProvider(AuthenticationProvider)
+            .authenticationProvider(AuthenticationProvider) // Will be only used when logging
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -58,10 +55,12 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

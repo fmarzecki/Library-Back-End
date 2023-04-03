@@ -21,16 +21,7 @@ public class ApplicationConfig {
     private final UserRepository repository;
 
 
-    // czyli gdyby nie funkcja anonimowa, musielibysmy stworzyc klase ktore implementuje
-    // userDetailsService, nastepnie w niej nadpisac metode loadUserByUsername ?
-
-    // Tak, dokładnie. Jeśli nie chcemy korzystać z klasy anonimowej, musielibyśmy 
-    // stworzyć osobną klasę, która implementuje interfejs UserDetailsService, a następnie nadpisać w niej metodę loadUserByUsername().
-
-    // Klasa anonimowa to klasa, która jest definiowana bez nazwy.
-    // Zamiast nazwy, używa się słowa kluczowego new do utworzenia instancji klasy anonimowej.
-
-
+    // Using 
     // @Bean
     // public UserDetailsService userDetailsService() {
     //     return new UserDetailsService() {
@@ -42,8 +33,7 @@ public class ApplicationConfig {
     // }
 
 
-    // z tlambdy mozemy korzystac jedynie gdy interfejs ktory implementujemy posiaada jedna metode
-    // jest to tak zwany interfejs funkcyjny
+    // We can use lambda with function interfaces (has only one function declared)
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> repository.findByEmail(username)
@@ -51,15 +41,16 @@ public class ApplicationConfig {
     }
 
 
-    //this is a data accces object which is responsbile for fetching user details and also encode password
+    // DAO which is responsbile for fetching user details and also encode password
+    // It is used by AuthenticationManager to authenticate user
     @Bean
     public AuthenticationProvider authenticationProvider() {
         
-        // it needs to know which loadUserByUsername to use
+        // It needs to know which loadUserByUsername to use
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
 
-        // provide password encoder
+        // Provide password encoder
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;

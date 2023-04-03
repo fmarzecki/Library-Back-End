@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import SpringSecurity.SpringSecurityJWT.loan.Loan;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -40,7 +42,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "_user")
 public class User implements UserDetails {
-    
+
     @Id
     @GeneratedValue
     private Integer id;
@@ -52,9 +54,9 @@ public class User implements UserDetails {
     private String email;
     @Column(nullable = false, name="password")
     private String password;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Loan> loans;
-
 
     // when spring security start setup application it will use object called UserDetails
     // thats and interface that contains a bunch of methods
@@ -94,4 +96,15 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    
+    public User(String firstname, String lastname, String email, String password, Role role) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+
 }

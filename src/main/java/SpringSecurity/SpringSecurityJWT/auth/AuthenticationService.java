@@ -20,27 +20,28 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    // allows us to create user, save it to the database and generate token out of it  
+
+    // Allows us to create user and save it to the database 
     public BasicResponse register(RegisterRequest request) {
-        //create user out of RegisterRequest object
+
+        // Create user out of RegisterRequest object
         var user = User.builder()
             .email(request.getEmail())
             .lastname(request.getLastname())
             .firstname(request.getFirstname())
-            // encode password before saving it to database
             .password(passwordEncoder.encode(request.getPassword()))
             .role(Role.ROLE_USER)
             .build()
         ;
 
         repository.save(user);
-
         return BasicResponse.builder().response("Succes!").build();
     }
 
     // We'll use AuthenticationManager @bean that we created in AppConfig
     public AuthenticationRespnose authenticate(AuthenticationRequest request) {
 
+        // Tries to authenticate, if failed, throws AuthenticationException
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 request.getEmail(),

@@ -58,27 +58,27 @@ public class JwtService {
         
     }
 
-    // tokenValidation
-    // we will check if @token belongs to @userDetails
+    
+    // Token validation, we will check if @token belongs to @userDetails
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
-    // check if token is expired
+    // Check if token is expired
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    // extracts expiration date from token
+    // Extracts expiration date from token
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    // Extracts all claims from JWT
-    // header, body, i signature
-
-    // if signature is not valid, it throws SignatureException
+    /*  
+        Extracts all claims from JWT
+        if signature is not valid, it throws SignatureException
+    */
     private Claims extractAllClaims(String token) {
         return Jwts.
         parserBuilder()
@@ -88,29 +88,24 @@ public class JwtService {
         .getBody();
     }
 
-    // ohh so the secretkey is for decoding token right? we create a new token using secret Key
-    // header and payload , and then we check if this new tokens signature is the same as the extracted one?
-
-    // Yes, that's correct! The secret key is used to decode the token and verify its signature.
-    // When a token is created, it includes a signature based on the secret key, header, and payload.
-    // When the server receives the token in a subsequent request, it can extract the signature andcompare it to a
-    // new signature created from the secret key, header, and payload. If the two
-    // signatures match, then the token is considered valid and the server can grant access to the requested resource.
-
-
-
-    // This line takes a base64-encoded string called SECRET_KEY and decodes it into
-    // a byte array called keyBytes. Base64 is a way of encoding binary data using 
-    // only printable characters, so this line converts the encoded string back into its original binary form.
-
-
-    //The getSignInKey() method returns this private key, which can be used to sign data using the HMAC-SHA algorithm.
-
+    /*  
+        Verifies that sender of JWT is the one who claims it to be
+        Ensures that token wasnt changed along the way
+        The getSignInKey() method returns this private key, which can be used to sign data using the HMAC-SHA algorithm.
+    */
     private Key getSignInKey() {
        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
        return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // getSingInKey() it will verify that sender of JWT is the one who claims it to be
-    // ensures that token wasnt changed along the way
+
+
+    /* 
+        The secret key is used to decode the token and verify its signature.
+        When a token is created, it includes a signature based on the secret key, header, and payload.
+        When the server receives the token in a subsequent request, it can extract the signature andcompare it to a
+        new signature created from the secret key, header, and payload. If the two
+        signatures match, then the token is considered valid and the server can grant access to the requested resource.
+    */
+
 }

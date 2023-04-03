@@ -1,7 +1,10 @@
 package SpringSecurity.SpringSecurityJWT.loan;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import SpringSecurity.SpringSecurityJWT.book.Book;
 import SpringSecurity.SpringSecurityJWT.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,20 +26,34 @@ public class Loan {
 
     @Id
     @GeneratedValue
-    @Column(name="book_id")
+    @Column(name="loan_id")
     private Integer id;
 
     @Column(nullable = false, name="date_borrowed")
-    private Date dateBorrowed;
+    private LocalDate dateBorrowed;
 
     @Column(nullable = false, name="date_due")
-    private Date dateDue;
+    private LocalDate dateDue;
     
     @Column(nullable = false, name="returned")
     private boolean returned;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private User user;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    private Book book;
+
+    public Loan(LocalDate dateBorrowed, LocalDate dateDue, boolean returned, User user, Book book) {
+        this.dateBorrowed = dateBorrowed;
+        this.dateDue = dateDue;
+        this.returned = returned;
+        this.user = user;
+        this.book = book;
+    }
 
 }

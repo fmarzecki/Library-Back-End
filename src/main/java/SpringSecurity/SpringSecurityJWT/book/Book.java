@@ -1,5 +1,7 @@
 package SpringSecurity.SpringSecurityJWT.book;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,5 +26,12 @@ public class Book {
     @Column(nullable = false, name="author")
     private String author;
     @Column(nullable = false, name="available")
-    private boolean available;
+    private Integer available;
+
+    public Book(String title, String author, Integer available) {
+        this.title = title;
+        this.author = author;
+        this.available = available;
+    }
+
 }

@@ -19,12 +19,12 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-//we have to make it a filter, we want it to be active every time we get a request
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    // Filter implementation for user authentication with JWT
     @Override
     protected void doFilterInternal(
         @NonNull HttpServletRequest request,
@@ -32,9 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         @NonNull FilterChain filterChain)
         throws ServletException, IOException {
                 
-        // Filter implementation for user authentication with JWT
-
-        // TODO: Extract JWT from HTTP request, extract information about user from JWT (email, roles) JwtService
+        // Extract JWT from HTTP request, extract information about user from JWT (email, roles) JwtService
         
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
@@ -48,33 +46,33 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractUsername(jwt);
         
-        
-        // if a user exists but it is not authenticated
+        // If a user exists but it is not authenticated
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            //get user by userEmail from database
+            // Get user by userEmail from database
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
-            //check if token is still valid
+            // Check if token is still valid
             if (jwtService.isTokenValid(jwt, userDetails)) {
 
-                // if the user is valid, upate securityContext and send send the request to our dispatchers
-                // this object is needed by SpringSecurity to update our securityContext
-                // TODO: Utworzenie obiektu Authentication i ustawienie w nim informacji o użytkowniku oraz jego rolach// 
-
+                // Create Authentication object and set information about user and user roles
+                // Needed by SpringSecurity to update SecurityContex
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,
                     userDetails.getAuthorities()
                 );
                     
+                // WebAuthentication contains information about IP addres and browser
                 authToken.setDetails(
                     new WebAuthenticationDetailsSource().buildDetails(request)
                 );
 
-                // TODO: Ustawienie obiektu Authentication w SecurityContextHolder
-                // Upadate security Context Holder
-
+                /*  
+                    Set Authentication object in SecurityContextHolder
+                    It stores information about security context of current thread
+                    i.e users name, roles
+                */  
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
