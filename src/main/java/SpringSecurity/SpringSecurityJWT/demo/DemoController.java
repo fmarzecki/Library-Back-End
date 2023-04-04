@@ -77,9 +77,9 @@ public class DemoController {
         return ResponseEntity.ok("This endpoint is secured, how did you get gere!?");
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/authCheck")
     public BasicResponse sayHello2() {
-        BasicResponse response = new BasicResponse("It it only for admin!");
+        BasicResponse response = new BasicResponse("Authenticated");
         return response;
     }
 
