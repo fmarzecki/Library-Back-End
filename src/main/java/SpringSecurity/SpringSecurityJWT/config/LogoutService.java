@@ -4,8 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-import java.io.IOException;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -21,6 +19,7 @@ public class LogoutService implements LogoutHandler {
 
   @Override
   public void logout(
+
       HttpServletRequest request,
       HttpServletResponse response,
       Authentication authentication) {
@@ -28,12 +27,13 @@ public class LogoutService implements LogoutHandler {
     final String authHeader = request.getHeader("Authorization");
     final String jwt;
 
+    // Retrieve token from header
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
       return;
     }
-
     jwt = authHeader.substring(7);
 
+    // Find token by id and set it to expired
     var storedToken = tokenRepository.findByToken(jwt)
       .orElse(null);
 
@@ -43,15 +43,7 @@ public class LogoutService implements LogoutHandler {
 
       tokenRepository.save(storedToken);
       SecurityContextHolder.clearContext();
-
-      response.setContentType("application/json");
-      response.setCharacterEncoding("UTF-8");
-      try {
-        response.getWriter().write("{\"message\":\"Logout successful\"}");
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
     }
+
   }
 }
