@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import SpringSecurity.SpringSecurityJWT.token.TokenRepository;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,6 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final TokenRepository tokenRepository;
 
     // Filter implementation for user authentication with JWT
     @Override
@@ -52,8 +54,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // Get user by userEmail from database
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
+            // Check if token is not expired or revoked
+            var isTokenValid = tokenRepository.findByToken(jwt)
+            .map(t -> !t.isExpired() && !t.isRevoked())
+            .orElse(false);
+
             // Check if token is still valid
-            if (jwtService.isTokenValid(jwt, userDetails)) {
+            if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
 
                 // Create Authentication object and set information about user and user roles
                 // Needed by SpringSecurity to update SecurityContex

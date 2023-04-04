@@ -7,9 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import SpringSecurity.SpringSecurityJWT.loan.Loan;
+import SpringSecurity.SpringSecurityJWT.token.Token;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,6 +58,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Loan> loans;
 
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
     // when spring security start setup application it will use object called UserDetails
     // thats and interface that contains a bunch of methods
 

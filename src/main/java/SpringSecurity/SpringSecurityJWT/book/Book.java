@@ -1,6 +1,5 @@
 package SpringSecurity.SpringSecurityJWT.book;
 
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
