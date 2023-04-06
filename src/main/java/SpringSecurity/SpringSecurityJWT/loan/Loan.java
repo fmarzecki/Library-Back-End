@@ -21,12 +21,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "loans")
+@Table(name = "loan")
 public class Loan {
 
     @Id
     @GeneratedValue
-    @Column(name="loan_id")
+    @Column(name="id")
     private Integer id;
 
     @Column(nullable = false, name="date_borrowed")
@@ -38,12 +38,10 @@ public class Loan {
     @Column(nullable = false, name="returned")
     private boolean returned;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private User user;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;

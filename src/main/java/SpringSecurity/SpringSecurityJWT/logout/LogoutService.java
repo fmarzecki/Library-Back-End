@@ -1,4 +1,4 @@
-package SpringSecurity.SpringSecurityJWT.config;
+package SpringSecurity.SpringSecurityJWT.logout;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

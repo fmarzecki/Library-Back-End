@@ -7,18 +7,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import SpringSecurity.SpringSecurityJWT.loan.Loan;
-import SpringSecurity.SpringSecurityJWT.token.Token;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -50,50 +49,62 @@ public class User implements UserDetails {
     private String firstname;
     @Column(nullable = false, name="lastname")
     private String lastname;
+    @JsonIgnore
     @Column(nullable = false, name="email")
     private String email;
+    @JsonIgnore
     @Column(nullable = false, name="password")
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Loan> loans;
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    // private List<Loan> loans;
 
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
+    // @OneToMany(mappedBy = "user")
+    // private List<Token> tokens;
+
+
     // when spring security start setup application it will use object called UserDetails
     // thats and interface that contains a bunch of methods
 
+    @JsonIgnore
     // User can have only one role
     @Enumerated(EnumType.STRING)
     public Role role;
 
     // Ta metoda zwraca kolekcję obiektów typu GrantedAuthority, która reprezentuje role i uprawnienia przypisane do użytkownika
     // Wartość zwracana z tej metody określa, jakie operacje i zasoby są dostępne dla danego użytkownika w systemie.
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return password;
     }
+    @JsonIgnore
     @Override
     public String getUsername() {
         return email;
     }
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

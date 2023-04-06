@@ -17,7 +17,7 @@ public class BookController {
 
     @GetMapping
     public List<Book> findAll() {
-        return service.findByOrderByAvailableDesc();
+        return service.findByAvailable();
     }
      
 }

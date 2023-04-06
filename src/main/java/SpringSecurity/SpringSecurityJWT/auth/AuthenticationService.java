@@ -1,11 +1,14 @@
 package SpringSecurity.SpringSecurityJWT.auth;
 
+import java.util.Optional;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import SpringSecurity.SpringSecurityJWT.config.JwtService;
+import SpringSecurity.SpringSecurityJWT.exception.EmailAlreadyTakenException;
 import SpringSecurity.SpringSecurityJWT.token.Token;
 import SpringSecurity.SpringSecurityJWT.token.TokenRepository;
 import SpringSecurity.SpringSecurityJWT.token.TokenType;
@@ -27,6 +30,10 @@ public class AuthenticationService {
     // Allows us to create user and save it to the database 
     public BasicResponse register(RegisterRequest request) {
 
+      Optional<User> optionalUser = repository.findByEmail(request.getEmail());
+      if ( optionalUser.isPresent() ) {
+        throw new EmailAlreadyTakenException("Email already Taken");
+      }
         // Create user out of RegisterRequest object
         var user = User.builder()
             .email(request.getEmail())

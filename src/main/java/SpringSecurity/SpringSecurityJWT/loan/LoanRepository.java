@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Integer> {
 
-    @Query("SELECT l FROM Loan l WHERE l.user.id = ?1")
+    // SQL - "SELECT * FROM loan l
+    //        JOIN book b ON l.book_id = b.id WHERE l.student_id = ?1"
+
+    @Query("SELECT l FROM Loan l JOIN FETCH l.book b WHERE l.user.id = ?1")
     List<Loan> findAllByStudentId(Integer id);
 
-
-    @Query("SELECT l FROM Loan l WHERE l.book.id = ?1")
-    List<Loan> findAllByBookId(Integer id);
 }
 

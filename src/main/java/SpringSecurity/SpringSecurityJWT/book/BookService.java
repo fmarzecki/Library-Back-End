@@ -24,8 +24,8 @@ public class BookService {
         return repository.findAll();
     }
 
-    public List<Book> findByOrderByAvailableDesc() {
-        return repository.findByOrderByAvailableDesc();
+    public List<Book> findByAvailable() {
+        return repository.findByAvailable();
     }
 
 }

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "books")
+@Table(name = "book")
 public class Book {
 
     @Id
@@ -26,11 +26,14 @@ public class Book {
     private String author;
     @Column(nullable = false, name="available")
     private Integer available;
+    @Column(nullable = false, name="available_at")
+    private String availableAt;
 
-    public Book(String title, String author, Integer available) {
+    public Book(String title, String author, Integer available, String availableAt) {
         this.title = title;
         this.author = author;
         this.available = available;
+        this.availableAt = availableAt;
     }
 
 }
