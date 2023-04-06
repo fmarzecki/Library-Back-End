@@ -19,5 +19,7 @@ public class BookController {
     public List<Book> findAll() {
         return service.findByAvailable();
     }
+
+    
      
 }
