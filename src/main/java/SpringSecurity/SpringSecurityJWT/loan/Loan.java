@@ -2,8 +2,6 @@ package SpringSecurity.SpringSecurityJWT.loan;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import SpringSecurity.SpringSecurityJWT.book.Book;
 import SpringSecurity.SpringSecurityJWT.user.User;
 import jakarta.persistence.Column;
