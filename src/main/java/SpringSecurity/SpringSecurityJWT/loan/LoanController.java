@@ -2,6 +2,7 @@ package SpringSecurity.SpringSecurityJWT.loan;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import SpringSecurity.SpringSecurityJWT.auth.BasicResponse;
 import SpringSecurity.SpringSecurityJWT.book.Book;
 import SpringSecurity.SpringSecurityJWT.book.BookRepository;
-import SpringSecurity.SpringSecurityJWT.book.BookRequest;
+import SpringSecurity.SpringSecurityJWT.book.BookIdRequest;
+import SpringSecurity.SpringSecurityJWT.exception.EmailAlreadyTakenException;
 import SpringSecurity.SpringSecurityJWT.user.User;
 import SpringSecurity.SpringSecurityJWT.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,15 +43,22 @@ public class LoanController {
     }
 
     @PostMapping()
-    public BasicResponse addLoan(@RequestBody BookRequest bookId) {
+    public BasicResponse addLoan(@RequestBody BookIdRequest bookId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
         User user = userRepository.findByEmail(username).orElseThrow();
         Book book = bookRepository.findById(bookId.getId()).orElseThrow();
+        List<Loan> loan = loanRepository.findByUserIdAndBookId(user.getId(), book.getId());
 
         if (book.getAvailable() <= 0) {
-            return new BasicResponse("Book not available");
+            throw new IllegalStateException("Books not available");
+        }
+        
+        int size = loan.size();
+
+        if(size > 0 && LocalDate.now().isBefore(loan.get(size -1).getDateDue())) {
+            throw new EmailAlreadyTakenException("Loan already borrowed");
         }
 
         Loan newLoan = new Loan(

@@ -1,13 +1,12 @@
 package SpringSecurity.SpringSecurityJWT.loan;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import SpringSecurity.SpringSecurityJWT.book.Book;
- 
 
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Integer> {
@@ -18,6 +17,8 @@ public interface LoanRepository extends JpaRepository<Loan, Integer> {
     @Query("SELECT l FROM Loan l JOIN FETCH l.book b WHERE l.user.id = ?1")
     List<Loan> findAllByStudentId(Integer id);
 
-
+    @Query("SELECT l FROM Loan l WHERE l.user.id = ?1 AND l.book.id = ?2")
+    List<Loan> findByUserIdAndBookId(Integer userId, Integer bookId);
+    
 }
 

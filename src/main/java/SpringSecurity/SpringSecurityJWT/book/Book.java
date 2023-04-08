@@ -7,10 +7,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -27,13 +29,20 @@ public class Book {
     @Column(nullable = false, name="available")
     private Integer available;
     @Column(nullable = false, name="available_at")
-    private String availableAt;
+    @Builder.Default
+    private String availableAt = "Warszawska 24";
 
     public Book(String title, String author, Integer available, String availableAt) {
         this.title = title;
         this.author = author;
         this.available = available;
         this.availableAt = availableAt;
+    }
+
+    public Book(String title, String author, Integer available) {
+        this.title = title;
+        this.author = author;
+        this.available = available;
     }
 
 }

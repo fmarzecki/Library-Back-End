@@ -36,7 +36,8 @@ public class DemoController {
     public void addBooks() {
 
         User user =  new User("Filip", "Marzecki", "@icloud.com", passwordEncoder.encode("test123"), Role.ROLE_ADMIN);
-        userRepository.save(user);
+        User user1 =  new User("Juan", "Hernandez", "@icloud.es", passwordEncoder.encode("test123"), Role.ROLE_USER);
+        userRepository.saveAll(List.of(user,user1));
 
         Book book =  new Book("The Catcher in the Rye", "J.D. Salinger", 4, "Warszawska 24");
         Book book1 =  new Book("To Kill a Mockingbird", "Harper Lee", 1, "Pawia 44");
@@ -56,7 +57,7 @@ public class DemoController {
         Loan loan1 = new Loan(
             LocalDate.parse("2023-03-14"),
             LocalDate.parse("2023-03-30"),
-            false,
+            true,
             user,
             book1);
             
@@ -70,19 +71,17 @@ public class DemoController {
         Loan loan3 = new Loan(
             LocalDate.parse("2020-03-14"),
             LocalDate.parse("2017-03-30"),
-            false,
+            true,
             user,
             book3);
             
-    
         loanRepository.saveAll(List.of(loan1, loan2, loan3));
-        
     }
 
 
-    @GetMapping()
-    public ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok("This endpoint is secured, how did you get gere!?");
+    @GetMapping("/admin")
+    public ResponseEntity<BasicResponse> sayHello() {
+        return ResponseEntity.ok(new BasicResponse("ADMIN PERMISSIONS"));
     }
 
     @GetMapping("/authCheck")

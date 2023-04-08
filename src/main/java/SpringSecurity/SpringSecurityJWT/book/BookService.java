@@ -12,8 +12,9 @@ public class BookService {
     
     final private BookRepository repository;
 
-    public void save(Book book) {
+    public Book save(Book book) {
         repository.save(book);
+        return book;
     }
 
     public void saveAll(List<Book> books) {

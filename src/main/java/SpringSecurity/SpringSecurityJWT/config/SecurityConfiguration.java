@@ -41,7 +41,7 @@ public class SecurityConfiguration {
             .csrf()
             .disable()
             .authorizeHttpRequests()
-            // .requestMatchers("/test/admin").hasAnyRole("ADMIN")
+            .requestMatchers("/test/admin").hasRole("ADMIN")
             .requestMatchers("/api/v1/auth/**") // Permit endpoints without token
                 .permitAll()
             .anyRequest()

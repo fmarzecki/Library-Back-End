@@ -2,24 +2,35 @@ package SpringSecurity.SpringSecurityJWT.book;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/books")
-@AllArgsConstructor
 public class BookController {
 
-    private BookService service;
+    final private BookService service;
 
     @GetMapping
-    public List<Book> findAll() {
-        return service.findByAvailable();
+    public ResponseEntity<List<Book>> findAll() {
+        return ResponseEntity.ok(service.findByAvailable());
     }
 
+    @PostMapping
+    public ResponseEntity<Book> addBook
+        (@RequestBody Book book)
+    {
+        return ResponseEntity.ok(service.save(book));
+    }
+
+    
     
      
 }
