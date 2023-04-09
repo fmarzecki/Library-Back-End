@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookIdRequest {
-    private Integer id;
+    private Integer id; 
 }

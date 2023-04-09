@@ -26,10 +26,6 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // przekazujemy do claimsResolver referencje do metody ktora chcemy uzyc na obiekcie Claims
-    // wywolujemy te metode uzywacjac claimsResolver.apply(claims) czyli claims.getSubject()
-    // tym samym funkcja sama ustala zwracany typ na podstawie typu metody ktory przesylamy (getSubject() - zwraca String)
-
     // Returns specific claim
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);

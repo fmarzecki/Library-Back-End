@@ -78,7 +78,6 @@ public class DemoController {
         loanRepository.saveAll(List.of(loan1, loan2, loan3));
     }
 
-
     @GetMapping("/admin")
     public ResponseEntity<BasicResponse> sayHello() {
         return ResponseEntity.ok(new BasicResponse("ADMIN PERMISSIONS"));
@@ -89,6 +88,4 @@ public class DemoController {
         BasicResponse response = new BasicResponse("Authenticated");
         return response;
     }
-
-
 }

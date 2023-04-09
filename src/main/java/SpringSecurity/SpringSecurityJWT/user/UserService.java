@@ -17,7 +17,6 @@ public class UserService {
     final private UserRepository userRepository;
     final private LoanRepository loanRepository;
 
-
     public UserRequest getUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -33,6 +32,6 @@ public class UserService {
             .role(user.getRole())
             .build();
 
-        return userRequest;
+        return userRequest; 
     }
 }

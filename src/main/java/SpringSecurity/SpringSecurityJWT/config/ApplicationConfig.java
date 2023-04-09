@@ -20,7 +20,6 @@ public class ApplicationConfig {
     
     private final UserRepository repository;
 
-
     // Using 
     // @Bean
     // public UserDetailsService userDetailsService() {
@@ -56,12 +55,10 @@ public class ApplicationConfig {
         return authProvider;
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{

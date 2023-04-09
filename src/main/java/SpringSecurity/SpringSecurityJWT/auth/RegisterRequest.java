@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// Class for mapping request to class
 @Data
 @Builder
 @AllArgsConstructor

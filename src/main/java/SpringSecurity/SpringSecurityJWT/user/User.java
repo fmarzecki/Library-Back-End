@@ -9,14 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import SpringSecurity.SpringSecurityJWT.loan.Loan;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,21 +47,14 @@ public class User implements UserDetails {
     @Column(nullable = false, name="password")
     private String password;
 
-    // @JsonIgnore
-    // @OneToMany(mappedBy = "user")
-    // private List<Loan> loans;
-
-    // @OneToMany(mappedBy = "user")
-    // private List<Token> tokens;
-
     // User can have only one role
     @JsonIgnore
     @Enumerated(EnumType.STRING)
     public Role role;
 
     /*  
-        Returns collection of GrantedAuthority objects, which represent roles and authorities
-        assigned to user. It specifies operations and resources available for given user
+    *   Returns collection of GrantedAuthority objects, which represent roles and authorities
+    *   assigned to user. It specifies operations and resources available for given user
     */
     @JsonIgnore
     @Override

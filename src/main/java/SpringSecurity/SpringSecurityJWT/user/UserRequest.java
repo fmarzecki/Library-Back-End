@@ -15,4 +15,4 @@ public class UserRequest {
     private Boolean enabled;
     private Integer booksBorrowed;
     private Role role;
-}
+} 

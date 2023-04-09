@@ -2,7 +2,6 @@ package SpringSecurity.SpringSecurityJWT.loan;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +30,7 @@ public class LoanController {
     private final LoanRepository loanRepository;
     private final BookRepository bookRepository;
 
+    // Returns all loans for given user
     @GetMapping()
     public List<Loan> getLoans() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -42,6 +42,7 @@ public class LoanController {
         return loans;
     }
 
+    // Adds loan to a given user
     @PostMapping()
     public BasicResponse addLoan(@RequestBody BookIdRequest bookId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

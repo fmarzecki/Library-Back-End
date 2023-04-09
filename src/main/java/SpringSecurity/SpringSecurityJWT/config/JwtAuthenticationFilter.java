@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final TokenRepository tokenRepository;
 
-    // Filter implementation for user authentication with JWT
+    // Filter implementation for user authentication with JWT  
     @Override
     protected void doFilterInternal(
         @NonNull HttpServletRequest request,

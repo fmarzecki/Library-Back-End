@@ -51,5 +51,4 @@ public class Loan {
         this.user = user;
         this.book = book;
     }
-
 }

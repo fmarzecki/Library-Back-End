@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "book")
 public class Book {
 
-    @Id
+    @Id 
     @GeneratedValue
     private Integer id;
     @Column(nullable = false, name="title")

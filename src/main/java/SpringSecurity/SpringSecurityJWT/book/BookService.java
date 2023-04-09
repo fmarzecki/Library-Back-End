@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BookService {
     
-    final private BookRepository repository;
+    final private BookRepository repository; 
 
     public Book save(Book book) {
         repository.save(book);

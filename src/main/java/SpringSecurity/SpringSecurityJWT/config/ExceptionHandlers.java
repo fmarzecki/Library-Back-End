@@ -10,7 +10,7 @@ import SpringSecurity.SpringSecurityJWT.exception.EmailAlreadyTakenException;
 
 @RestControllerAdvice
 public class ExceptionHandlers {
-    // Dodaje ExceptionHandler dla StudentNotFoundException ktory zwroci ResponseEntity<StudentErrorMessage>
+    // ExceptionHandler that returns ResponseEntity<StudentErrorMessage>
     @ExceptionHandler
     public ResponseEntity<BasicResponse> handleException(EmailAlreadyTakenException exc) {
         return new ResponseEntity<>(new BasicResponse(exc.getMessage()), HttpStatus.FORBIDDEN);

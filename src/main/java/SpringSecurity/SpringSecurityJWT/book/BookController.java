@@ -18,19 +18,17 @@ public class BookController {
 
     final private BookService service;
 
+    // Returns list of book
     @GetMapping
     public ResponseEntity<List<Book>> findAll() {
         return ResponseEntity.ok(service.findByAvailable());
     }
 
+    // Saves new book
     @PostMapping
     public ResponseEntity<Book> addBook
         (@RequestBody Book book)
     {
         return ResponseEntity.ok(service.save(book));
-    }
-
-    
-    
-     
+    }   
 }
