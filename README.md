@@ -4,36 +4,8 @@ The Library Management System is a Java-based web application that provides a RE
 
 ## Table of Contents
 
-- [Installation](#installation)
 - [Usage](#usage)
 - [Endpoints](#endpoints)
-
-## Installation
-
-To run the application locally, you will need to have Java, Maven, and PostgreSQL installed on your machine. 
-
-`git clone https://github.com/fmarzecki/Library-Back-End.git`
-
-1. Clone the repository to your local machine:
-
-2. Create a new PostgreSQL database called "spring_jwt".
-
-3. Open the `application.properties` file located in the `src/main/resources` folder, and update the following properties:
-
-```
-spring.datasource.url=jdbc:postgresql://localhost:5432/spring_jwt
-
-spring.datasource.username=your-username
-
-spring.datasource.password=your-password
-```
-
-4. Build and run the application using the following commands:
-
-`mvn clean install`
-
-`mvn spring-boot:run`
-
 
 ## Usage
 
